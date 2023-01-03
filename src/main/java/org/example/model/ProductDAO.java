@@ -1,7 +1,4 @@
-package org.example.dao;
-
-import org.example.model.Product;
-import org.example.singleton.MyConnection;
+package org.example.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -109,11 +106,11 @@ public class ProductDAO implements DAO<Product> {
         String sql = "select * from products where id=?";
         Product product = null;
         try (PreparedStatement ps = connectionMysql.prepareStatement(sql)) {
-            ps.setInt(1,id);
+            ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
 
             if (resultSet.next()) {
-                 product = new Product(resultSet.getInt("id")
+                product = new Product(resultSet.getInt("id")
                         , resultSet.getString("name")
                         , resultSet.getInt("price")
                         , resultSet.getString("made_in")

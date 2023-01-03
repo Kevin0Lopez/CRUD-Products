@@ -1,4 +1,4 @@
-package org.example.singleton;
+package org.example.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
