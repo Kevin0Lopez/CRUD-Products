@@ -27,11 +27,9 @@ public class ProductDAO implements DAO<Product> {
             ps.setString(5, object.getExpiration_date());
             ps.executeUpdate();
         } catch (SQLException exception) {
-            myConnection.toDisconect();
             exception.printStackTrace();
         }
-
-        myConnection.toDisconect();
+        myConnection.toDisconect(connectionMysql);
     }
 
     @Override
@@ -54,10 +52,10 @@ public class ProductDAO implements DAO<Product> {
                 listProducts.add(product);
             }
 
-            myConnection.toDisconect();
+            myConnection.toDisconect(connectionMysql);
             return listProducts;
         } catch (SQLException ex) {
-            myConnection.toDisconect();
+            myConnection.toDisconect(connectionMysql);
             ex.printStackTrace();
         }
 
@@ -78,10 +76,10 @@ public class ProductDAO implements DAO<Product> {
             ps.setString(5, object.getExpiration_date());
             ps.setInt(6, object.getId());
             ps.executeUpdate();
-            myConnection.toDisconect();
+            myConnection.toDisconect(connectionMysql);
 
         } catch (SQLException exception) {
-            myConnection.toDisconect();
+            myConnection.toDisconect(connectionMysql);
             exception.printStackTrace();
         }
     }
@@ -93,9 +91,9 @@ public class ProductDAO implements DAO<Product> {
         try (PreparedStatement ps = connectionMysql.prepareStatement(sql)) {
             ps.setInt(1, object.getId());
             ps.executeUpdate();
-            myConnection.toDisconect();
+            myConnection.toDisconect(connectionMysql);
         } catch (SQLException exception) {
-            myConnection.toDisconect();
+            myConnection.toDisconect(connectionMysql);
             exception.printStackTrace();
         }
     }
@@ -118,9 +116,9 @@ public class ProductDAO implements DAO<Product> {
                         , resultSet.getString("expiration_date")
                 );
             }
-            myConnection.toDisconect();
+            myConnection.toDisconect(connectionMysql);
         } catch (SQLException ex) {
-            myConnection.toDisconect();
+            myConnection.toDisconect(connectionMysql);
             ex.printStackTrace();
         }
 

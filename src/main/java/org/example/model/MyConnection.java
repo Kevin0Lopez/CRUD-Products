@@ -1,12 +1,13 @@
 package org.example.model;
 
+import org.apache.commons.dbcp2.BasicDataSource;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MyConnection {
     private static MyConnection myConnection;
-    private Connection connection;
+    private BasicDataSource bds;
 
     private MyConnection() {
     }
@@ -18,26 +19,42 @@ public class MyConnection {
         return myConnection;
     }
 
+    private BasicDataSource getDataSource() {
+        if (bds == null) {
+            bds = new BasicDataSource();
+            bds.setUrl("jdbc:mysql://localhost/bd_store");
+            bds.setUsername("root");
+            bds.setPassword("");
+            bds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+            bds.setInitialSize(5);
+            bds.setMinIdle(2);
+            bds.setMaxIdle(5);
+            bds.setMaxTotal(20);
+            bds.setMaxWaitMillis(5000);
+        }
+        return bds;
+    }
+
+
     public Connection toConnect() {
-        String url = "jdbc:mysql://localhost/bd_store";
-        String user = "root";
-        String password = "";
+        Connection connection = null;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(url, user, password);
-            System.out.println("Conexion a base de datos realizada correctamente");
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new RuntimeException(e);
+            connection = this.getDataSource().getConnection();
+            System.out.println("Conexion a BD realizada correctamente");
+        } catch (SQLException e) {
+            System.out.println("No se pudo conectar a la BD");
+            e.printStackTrace();
         }
         return connection;
     }
 
-    public void toDisconect() {
+    public void toDisconect(Connection connection) {
         try {
             if (connection != null && !connection.isClosed()) connection.close();
             System.out.println("Conexion a base de datos cerrada correctamente");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("No se pudo cerrar la conexion");
+            e.printStackTrace();
         }
     }
 }

@@ -14,13 +14,13 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Controller implements ActionListener {
+public class ControllerUserInterface implements ActionListener {
 
     private Product product = new Product();
     private final ProductDAO productDAO = new ProductDAO();
     private final UserInterface view;
 
-    public Controller(UserInterface view) {
+    public ControllerUserInterface(UserInterface view) {
         this.view = view;
         this.view.btn_register.addActionListener(this);
         this.view.btn_showData.addActionListener(this);
